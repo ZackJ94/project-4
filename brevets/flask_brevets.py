@@ -42,6 +42,7 @@ def page_not_found(error):
 #   These return JSON, rather than rendering pages.
 #
 ###############
+
 @app.route("/_calc_times")
 def _calc_times():
     """
@@ -49,16 +50,27 @@ def _calc_times():
     described at https://rusa.org/octime_alg.html.
     Expects one URL-encoded argument, the number of miles.
     """
+
     app.logger.debug("Got a JSON request")
+
+    # get values from webpage
     km = request.args.get('km', 999, type=float)
-    app.logger.debug("km={}".format(km))
-    app.logger.debug("request.args: {}".format(request.args))
-    # FIXME!
-    # Right now, only the current time is passed as the start time
-    # and control distance is fixed to 200
-    # You should get these from the webpage!
-    open_time = acp_times.open_time(km, 200, arrow.now().isoformat).format('YYYY-MM-DDTHH:mm')
-    close_time = acp_times.close_time(km, 200, arrow.now().isoformat).format('YYYY-MM-DDTHH:mm')
+    brevet_dist = request.args.get('brevet_dist', 999, type=float)
+    start_time = request.args.get('start_time', type=str)
+
+    # convert start_time string --> arrow object
+    start_time_arrow = arrow.get(start_time, 'YYYY-MM-DD[T]HH:mm')
+
+    # debug
+    app.logger.debug(f"km = {km}")
+    app.logger.debug(f"brevet_dist = {brevet_dist}")
+    app.logger.debug(f"start_time = {start_time}")
+    app.logger.debug(f"start_time_arrow = {start_time_arrow}")
+    app.logger.debug(f"request.args: {request.args}")
+
+    open_time = acp_times.open_time(km, brevet_dist, start_time_arrow).format('YYYY-MM-DDTHH:mm')    
+    close_time = acp_times.close_time(km, brevet_dist, start_time_arrow).format('YYYY-MM-DDTHH:mm')
+
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 
