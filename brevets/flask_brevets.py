@@ -53,6 +53,9 @@ def _calc_times():
 
     app.logger.debug("Got a JSON request")
 
+    # TODO: handle errors by returning a JSON (?)
+    # mentioned in lab, but idt its required, just good practice
+
     # get values from webpage
     km = request.args.get('km', 999, type=float)
     brevet_dist = request.args.get('brevet_dist', 999, type=float)
@@ -62,10 +65,10 @@ def _calc_times():
     start_time_arrow = arrow.get(start_time, 'YYYY-MM-DD[T]HH:mm')
 
     # debug
-    app.logger.debug(f"km = {km}")
-    app.logger.debug(f"brevet_dist = {brevet_dist}")
-    app.logger.debug(f"start_time = {start_time}")
-    app.logger.debug(f"start_time_arrow = {start_time_arrow}")
+    # app.logger.debug(f"km = {km}")
+    # app.logger.debug(f"brevet_dist = {brevet_dist}")
+    # app.logger.debug(f"start_time = {start_time}")
+    # app.logger.debug(f"start_time_arrow = {start_time_arrow}")
     app.logger.debug(f"request.args: {request.args}")
 
     open_time = acp_times.open_time(km, brevet_dist, start_time_arrow).format('YYYY-MM-DDTHH:mm')    

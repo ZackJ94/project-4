@@ -18,9 +18,8 @@ log = logging.getLogger(__name__)
 # every test is a full race
 
 def test_brevet1():
-
     start_time = arrow.get("2023-02-17 00:00", "YYYY-MM-DD HH:mm")
-    total_dist = 200
+    dist = 200
 
     checkpoints = {
         0: (start_time, start_time.shift(hours=1)),
@@ -31,14 +30,14 @@ def test_brevet1():
 
     # iterate through key/val pairs
     for km, time_tuple in checkpoints.items():
-        control_open, control_close = time_tuple
+        checkpoint_open, checkpoint_close = time_tuple
 
         assert open_time(km, dist, start_time) == checkpoint_open
         assert close_time(km, dist, start_time) == checkpoint_close
 
 def test_brevet2():
     start_time = arrow.get("2023-02-17 00:00", "YYYY-MM-DD HH:mm")
-    total_dist = 200
+    dist = 200
 
     checkpoints = {
         0: (start_time, start_time.shift(hours=1)),
@@ -51,14 +50,14 @@ def test_brevet2():
 
     # iterate through key/val pairs
     for km, time_tuple in checkpoints.items():
-        control_open, control_close = time_tuple
+        checkpoint_open, checkpoint_close = time_tuple
 
         assert open_time(km, dist, start_time) == checkpoint_open
         assert close_time(km, dist, start_time) == checkpoint_close
 
 def test_brevet3():
     start_time = arrow.get("2023-02-17 00:00", "YYYY-MM-DD HH:mm")
-    total_dist = 1000
+    dist = 1000
 
     checkpoints = {
         0: (start_time, start_time.shift(hours=1)),
@@ -68,20 +67,20 @@ def test_brevet3():
         200: (start_time.shift(hours=5, minutes=53), start_time.shift(hours=13, minutes=20)),
         400: (start_time.shift(hours=12, minutes=8), start_time.shift(days=1, hours=2, minutes=40)),
         600: (start_time.shift(hours=18, minutes=48), start_time.shift(days=1, hours=16)),
-        1000: (start_time.shift(hours=9, minutes=5), start_time.shift(days=2, hours=3)),
-        1200: (start_time.shift(hours=9, minutes=5), start_time.shift(days=2, hours=3))
+        1000: (start_time.shift(days=1, hours=9, minutes=5), start_time.shift(days=3, hours=3)),
+        1200: (start_time.shift(days=1, hours=9, minutes=5), start_time.shift(days=3, hours=3))
     }
 
     # iterate through key/val pairs
     for km, time_tuple in checkpoints.items():
-        control_open, control_close = time_tuple
+        checkpoint_open, checkpoint_close = time_tuple
 
         assert open_time(km, dist, start_time) == checkpoint_open
         assert close_time(km, dist, start_time) == checkpoint_close
 
 def test_brevet4():
     start_time = arrow.get("2023-02-17 00:00", "YYYY-MM-DD HH:mm")
-    total_dist = 600
+    dist = 600
 
     checkpoints = {
         0: (start_time, start_time.shift(hours=1)),
@@ -94,24 +93,24 @@ def test_brevet4():
 
     # iterate through key/val pairs
     for km, time_tuple in checkpoints.items():
-        control_open, control_close = time_tuple
+        checkpoint_open, checkpoint_close = time_tuple
 
         assert open_time(km, dist, start_time) == checkpoint_open
         assert close_time(km, dist, start_time) == checkpoint_close
 
 def test_brevet5():
     start_time = arrow.get("2023-02-17 00:00", "YYYY-MM-DD HH:mm")
-    total_dist = 1000
+    dist = 1000
 
     checkpoints = {
         0: (start_time, start_time.shift(hours=1)),
         1: (start_time.shift(minutes=2), start_time.shift(hours=1, minutes=3)),
-        1000: (start_time.shift(hours=9, minutes=5), start_time.shift(days=2, hours=3))
+        1000: (start_time.shift(days=1, hours=9, minutes=5), start_time.shift(days=3, hours=3))
     }
 
     # iterate through key/val pairs
     for km, time_tuple in checkpoints.items():
-        control_open, control_close = time_tuple
+        checkpoint_open, checkpoint_close = time_tuple
 
         assert open_time(km, dist, start_time) == checkpoint_open
         assert close_time(km, dist, start_time) == checkpoint_close
